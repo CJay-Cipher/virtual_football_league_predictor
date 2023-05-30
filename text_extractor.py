@@ -7,7 +7,8 @@ contents = file.read()
 # Close the file
 file.close()
 
-# league_id, week, hour, minute, ht, at, ht_point, at_point, ht_pos, at_pos, hl5ms, al5ms, hl4ms, al4ms, hl3ms, al3ms, hl2ms, al2ms, hlms, alms
+# league_id, week, hour, minute, ht, at, ht_point, at_point, ht_pos, at_pos,
+# hl5ms, al5ms, hl4ms, al4ms, hl3ms, al3ms, hl2ms, al2ms, hlms, alms
 
 # Print the contents of the file
 weeks = contents.split("WEEK")
@@ -15,8 +16,10 @@ pos = weeks[0].index("League")
 league_id = int(weeks[0][(pos + 7): (pos + 11)])
 print("League -", league_id)
 
-sample = ' 1   12:52:00\nEVE\t1-2\tMNC\nBRN\t0-1\tTOT\nBRI\t1-0\tFUL\nLEI\t2-1\tWHU\nWOL\t0-0\tARS\nASV\t2-3\tLIV\nCRY\t3-1\tFOR\nCHE\t3-3\tMNU\nLEE\t2-2\tBOU\nSOU\t0-2\tNWC\n'
-sample.split("\n")[1:-1]
+sample = ' 1   12:52:00\nEVE\t1-2\tMNC\nBRN\t0-1\tTOT\nBRI\t1-0\tFUL\nLEI\t2-1\tWHU\nWOL\t0-0\tARS\n' \
+         'ASV\t2-3\tLIV\nCRY\t3-1\tFOR\nCHE\t3-3\tMNU\nLEE\t2-2\tBOU\nSOU\t0-2\tNWC\n'
+
+print(sample.split("\n")[1:-1])
 
 record = []
 for week in weeks[1:]:
