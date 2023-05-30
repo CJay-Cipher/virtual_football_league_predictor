@@ -16,22 +16,23 @@ pos = weeks[0].index("League")
 league_id = int(weeks[0][(pos + 7): (pos + 11)])
 print("League -", league_id)
 
+
 sample = ' 1   12:52:00\nEVE\t1-2\tMNC\nBRN\t0-1\tTOT\nBRI\t1-0\tFUL\nLEI\t2-1\tWHU\nWOL\t0-0\tARS\n' \
          'ASV\t2-3\tLIV\nCRY\t3-1\tFOR\nCHE\t3-3\tMNU\nLEE\t2-2\tBOU\nSOU\t0-2\tNWC\n'
 
 print(sample.split("\n")[1:-1])
 
-record = []
-for week in weeks[1:]:
-    temp_dict  = {}
-    temp_dict["league_id"] = league_id
-    temp_dict["week"] = int((week[:3]).strip())
-    temp_dict["hour"] = int(week[5:7])
-    temp_dict["minute"] = int(week[8:10])
+# record = []
+# for week in weeks[1:]:
+#     temp_dict  = {}
+#     temp_dict["league_id"] = league_id
+#     temp_dict["week"] = int((week[:3]).strip())
+#     temp_dict["hour"] = int(week[5:7])
+#     temp_dict["minute"] = int(week[8:10])
 
-    record.append(temp_dict)
+#     record.append(temp_dict)
     
-print(record)
+# print(record)
     # teams_score = week.split("\n")
     # teams_score = teams_score[1:-1][count]
     # temp_dict["ht"] = teams_score[0:3]
