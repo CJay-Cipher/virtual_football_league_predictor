@@ -89,11 +89,8 @@ def update_match_result(home_team, away_team, home_score, away_score, premier_le
     premier_league_table.sort(key=lambda x: (-x['points'], x['team']))
 
     # Assign positions to teams
-    current_position = 1
     for i, team in enumerate(premier_league_table):
-        if i > 0 and team['points'] != premier_league_table[i-1]['points']:
-            current_position = i + 1
-        team['position'] = current_position
+        team['position'] = i + 1
 
     home_team_points = premier_league_table[home_index]['points']
     home_team_position = premier_league_table[home_index]['position']
@@ -201,10 +198,11 @@ path = "league_data"
 test_record = [f"{path}/L_6148.txt"]
 record = [
     f"{path}/L_6095.txt", f"{path}/L_6097.txt", f"{path}/L_6099.txt",
-    f"{path}/L_6148.txt", f"{path}/L_6152.txt", f"{path}/L_6153.txt"
+    f"{path}/L_6148.txt", f"{path}/L_6152.txt", f"{path}/L_6153.txt",
+    f"{path}/L_6155.txt"
 ]
 
-f_paths = test_record
+f_paths = record
 
 df_list = []
 print(".txt files preprocessing --> \nPlease Wait ...")
