@@ -177,6 +177,7 @@ record = [f"{path}/L_6095.txt", f"{path}/L_6097.txt", f"{path}/L_6099.txt", f"{p
 f_paths = record
 
 df_list = []
+print(".txt files preprocessing --> \nPlease Wait ...")
 for path in f_paths:
     # Create an initial league table with zero points for all teams
     table = pd.DataFrame(
@@ -202,6 +203,7 @@ for path in f_paths:
 
 df = pd.concat(df_list, ignore_index=True)
 df.to_csv("league_record.csv", index=False)
+print("\n... Pre-processing Completed ...\nFiles Saved Successfully ")
 # print(df.tail(50))
 
-print(table[["Team", "Goals", "Goal_Diff", "Total_Points", "Position"]])
+# print(table[["Team", "Goals", "Goal_Diff", "Total_Points", "Position"]])
