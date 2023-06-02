@@ -49,58 +49,60 @@ def table_creator(contents):
 
 
 # --------------------------------------------------------------------------------------------
-def update_match_result(home_team, away_team, home_score, away_score, premier_league_table):
-    home_index = -1
-    away_index = -1
-    for i, team in enumerate(premier_league_table):
-        if team['team'] == home_team:
-            home_index = i
-        elif team['team'] == away_team:
-            away_index = i
 
-    premier_league_table[home_index]['played'] += 1
-    premier_league_table[home_index]['goals_for'] += home_score
-    premier_league_table[home_index]['goals_agst'] += away_score
-    premier_league_table[away_index]['played'] += 1
-    premier_league_table[away_index]['goals_for'] += away_score
-    premier_league_table[away_index]['goals_agst'] += home_score
-
-    premier_league_table[home_index]['goal_diff'] = \
-        premier_league_table[home_index]['goals_for'] - premier_league_table[home_index]['goals_agst']
-
-    premier_league_table[away_index]['goal_diff'] = \
-        premier_league_table[away_index]['goals_for'] - premier_league_table[away_index]['goals_agst']
-
-    if home_score > away_score:
-        premier_league_table[home_index]['wins'] += 1
-        premier_league_table[home_index]['points'] += 3
-        premier_league_table[away_index]['losses'] += 1
-    elif home_score < away_score:
-        premier_league_table[away_index]['wins'] += 1
-        premier_league_table[away_index]['points'] += 3
-        premier_league_table[home_index]['losses'] += 1
-    else:
-        premier_league_table[home_index]['draws'] += 1
-        premier_league_table[home_index]['points'] += 1
-        premier_league_table[away_index]['draws'] += 1
-        premier_league_table[away_index]['points'] += 1
-
-    # Sort table by points, then alphabetically if multiple teams have the same points
-    premier_league_table.sort(key=lambda x: (-x['points'], x['team']))
-
-    # Assign positions to teams
-    for i, team in enumerate(premier_league_table):
-        team['position'] = i + 1
-
-    home_team_points = premier_league_table[home_index]['points']
-    home_team_position = premier_league_table[home_index]['position']
-    away_team_points = premier_league_table[away_index]['points']
-    away_team_position = premier_league_table[away_index]['position']
-
-    return premier_league_table
 
 # --------------------------------------------------------------------------------------------------
 def add_features(dataframe):
+    def update_match_result(home_team, away_team, home_score, away_score, premier_league_table):
+        home_index = -1
+        away_index = -1
+        for i, team in enumerate(premier_league_table):
+            if team['team'] == home_team:
+                home_index = i
+            elif team['team'] == away_team:
+                away_index = i
+
+        premier_league_table[home_index]['played'] += 1
+        premier_league_table[home_index]['goals_for'] += home_score
+        premier_league_table[home_index]['goals_agst'] += away_score
+        premier_league_table[away_index]['played'] += 1
+        premier_league_table[away_index]['goals_for'] += away_score
+        premier_league_table[away_index]['goals_agst'] += home_score
+
+        premier_league_table[home_index]['goal_diff'] = \
+            premier_league_table[home_index]['goals_for'] - premier_league_table[home_index]['goals_agst']
+
+        premier_league_table[away_index]['goal_diff'] = \
+            premier_league_table[away_index]['goals_for'] - premier_league_table[away_index]['goals_agst']
+
+        if home_score > away_score:
+            premier_league_table[home_index]['wins'] += 1
+            premier_league_table[home_index]['points'] += 3
+            premier_league_table[away_index]['losses'] += 1
+        elif home_score < away_score:
+            premier_league_table[away_index]['wins'] += 1
+            premier_league_table[away_index]['points'] += 3
+            premier_league_table[home_index]['losses'] += 1
+        else:
+            premier_league_table[home_index]['draws'] += 1
+            premier_league_table[home_index]['points'] += 1
+            premier_league_table[away_index]['draws'] += 1
+            premier_league_table[away_index]['points'] += 1
+
+        # Sort table by points, then alphabetically if multiple teams have the same points
+        premier_league_table.sort(key=lambda x: (-x['points'], x['team']))
+
+        # Assign positions to teams
+        for i, team in enumerate(premier_league_table):
+            team['position'] = i + 1
+
+        home_team_points = premier_league_table[home_index]['points']
+        home_team_position = premier_league_table[home_index]['position']
+        away_team_points = premier_league_table[away_index]['points']
+        away_team_position = premier_league_table[away_index]['position']
+
+        return premier_league_table
+
     global table
     temp_df = dataframe.copy()
 
@@ -248,7 +250,7 @@ for path in f_paths:
 
 df = pd.concat(df_list, ignore_index=True)
 df.to_csv("league_record.csv", index=False)
-# print("\n... Pre-processing Completed ...\nFiles Saved Successfully \n")
-print(df.tail(10))
+print("\n... Pre-processing Completed ...\nFiles Saved Successfully \n")
+# print(df.tail(10))
 
-print(pd.DataFrame(premier_league_table))
+# print(pd.DataFrame(premier_league_table))
