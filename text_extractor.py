@@ -7,6 +7,40 @@ import pandas as pd
 
 FIVE, FOUR, THREE, TWO, ONE = 5, 4, 3, 2, 1
 
+league_id, week, hour, minute = [], [], [], []
+home_team, away_team, home_score, away_score = [], [], [], []
+
+ht_points, at_points, ht_pos, at_pos = [], [], [], []
+
+h_wins, h_draws, h_loss, h_gf, h_ga, h_gd = [], [], [], [], [], []
+a_wins, a_draws, a_loss, a_gf, a_ga, a_gd = [], [], [], [], [], []
+
+HL5S, HL4S, HL3S, HL2S = [], [], [], []
+AL5S, AL4S, AL3S, AL2S = [], [], [], []
+
+hl3_stat, hl2_stat, hl_stat = [], [], []
+al3_stat, al2_stat, al_stat = [], [], []
+
+teams = ['FOR', 'MNC', 'ASV', 'TOT', 'EVE', 'CHE', 'BRN', 'WHU', 'ARS', 'FUL',
+             'NWC', 'BOU', 'LEI', 'LIV', 'WOL', 'MNU', 'LEE', 'SOU', 'BRI', 'CRY']
+
+premier_league_table = []
+
+for team in teams:
+    team_dict = {
+        'team': team,
+        'played': 0,
+        'wins': 0,
+        'draws': 0,
+        'losses': 0,
+        'goals_for': 0,
+        'goals_agst': 0,
+        'goal_diff': 0,
+        'points': 0,
+        'position': 0
+    }
+    premier_league_table.append(team_dict)
+
 def txt_reader(_path):
     file = open(_path, 'r')  # Open the file in read mode
     contents = file.read()  # Read the contents of the file
@@ -196,61 +230,47 @@ def add_features(dataframe):
 
 # -----------------------------------------------------------------------------------------------------------
 
-path = "league_data"
-test_record = [f"{path}/L_6148.txt"]
-record = [
-    f"{path}/L_6095.txt", f"{path}/L_6097.txt", f"{path}/L_6099.txt",
-    f"{path}/L_6148.txt", f"{path}/L_6152.txt", f"{path}/L_6153.txt",
-    f"{path}/L_6155.txt", f"{path}/L_6156.txt"
-]
+# path = "league_data"
+# test_record = [f"{path}/L_6148.txt"]
+# record = [
+#     f"{path}/L_6095.txt", f"{path}/L_6097.txt", f"{path}/L_6099.txt",
+#     f"{path}/L_6148.txt", f"{path}/L_6152.txt", f"{path}/L_6153.txt",
+#     f"{path}/L_6155.txt", f"{path}/L_6156.txt"
+# ]
 
-f_paths = record
+# f_paths = record
 
-df_list = []
-print(".txt files preprocessing --> \nPlease Wait ...")
-for path in f_paths:
-    teams = ['FOR', 'MNC', 'ASV', 'TOT', 'EVE', 'CHE', 'BRN', 'WHU', 'ARS', 'FUL',
-             'NWC', 'BOU', 'LEI', 'LIV', 'WOL', 'MNU', 'LEE', 'SOU', 'BRI', 'CRY']
-    premier_league_table = []
+# df_list = []
+# print(".txt files preprocessing --> \nPlease Wait ...")
+# for path in f_paths:
+#     teams = ['FOR', 'MNC', 'ASV', 'TOT', 'EVE', 'CHE', 'BRN', 'WHU', 'ARS', 'FUL',
+#              'NWC', 'BOU', 'LEI', 'LIV', 'WOL', 'MNU', 'LEE', 'SOU', 'BRI', 'CRY']
+#     premier_league_table = []
 
-    for team in teams:
-        team_dict = {
-            'team': team,
-            'played': 0,
-            'wins': 0,
-            'draws': 0,
-            'losses': 0,
-            'goals_for': 0,
-            'goals_agst': 0,
-            'goal_diff': 0,
-            'points': 0,
-            'position': 0
-        }
-        premier_league_table.append(team_dict)
+#     for team in teams:
+#         team_dict = {
+#             'team': team,
+#             'played': 0,
+#             'wins': 0,
+#             'draws': 0,
+#             'losses': 0,
+#             'goals_for': 0,
+#             'goals_agst': 0,
+#             'goal_diff': 0,
+#             'points': 0,
+#             'position': 0
+#         }
+#         premier_league_table.append(team_dict)
 
-    league_id, week, hour, minute = [], [], [], []
-    home_team, away_team, home_score, away_score = [], [], [], []
+#     text_content = txt_reader(path)
+#     update_df = table_creator(text_content)
+#     update_df = add_features(update_df)
 
-    ht_points, at_points, ht_pos, at_pos = [], [], [], []
+#     df_list.append(update_df)
 
-    h_wins, h_draws, h_loss, h_gf, h_ga, h_gd = [], [], [], [], [], []
-    a_wins, a_draws, a_loss, a_gf, a_ga, a_gd = [], [], [], [], [], []
-
-    HL5S, HL4S, HL3S, HL2S = [], [], [], []
-    AL5S, AL4S, AL3S, AL2S = [], [], [], []
-
-    hl3_stat, hl2_stat, hl_stat = [], [], []
-    al3_stat, al2_stat, al_stat = [], [], []
-
-    text_content = txt_reader(path)
-    update_df = table_creator(text_content)
-    update_df = add_features(update_df)
-
-    df_list.append(update_df)
-
-df = pd.concat(df_list, ignore_index=True)
-# df.to_csv("league_record.csv", index=False)
-print("\n... Pre-processing Completed ...\nFiles Saved Successfully \n")
+# df = pd.concat(df_list, ignore_index=True)
+# # df.to_csv("league_record.csv", index=False)
+# print("\n... Pre-processing Completed ...\nFiles Saved Successfully \n")
 # print(df.tail(10))
 
 # print(pd.DataFrame(premier_league_table))
