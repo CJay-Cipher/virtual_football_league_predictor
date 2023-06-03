@@ -147,7 +147,9 @@ def add_features(dataframe):
         for (a, b), c in zip(team_dict.items(), team_status.values()):
             if a == home_t:
                 b.append(ht_score)
-                c.append("W" if ht_score > at_score else "L" if ht_score < at_score else "D")
+
+                # mapping "W" = 2, "D" = 1, "L" = 0
+                c.append(2 if ht_score > at_score else 0 if ht_score < at_score else 1)
                 if current_week >= FIVE:
                     h5 = b[current_week - FIVE]
                     h4 = b[current_week - FOUR]
@@ -156,7 +158,9 @@ def add_features(dataframe):
                     hs_1 = c[current_week - ONE]
             elif a == away_t:
                 b.append(at_score)
-                c.append("W" if ht_score < at_score else "L" if ht_score > at_score else "D")
+
+                # mapping "W" = 2, "D" = 1, "L" = 0
+                c.append(2 if ht_score < at_score else 0 if ht_score > at_score else 1)
                 if current_week >= FIVE:
                     a5 = b[current_week - FIVE]
                     a4 = b[current_week - FOUR]
@@ -202,7 +206,7 @@ record = [
     f"{path}/L_6095.txt", f"{path}/L_6097.txt", f"{path}/L_6099.txt",
     f"{path}/L_6148.txt", f"{path}/L_6152.txt", f"{path}/L_6153.txt",
     f"{path}/L_6155.txt", f"{path}/L_6155.txt", f"{path}/L_6166.txt",
-    f"{path}/L_6169.txt"
+    f"{path}/L_6169.txt", f"{path}/L_6170.txt", f"{path}/L_6171.txt"
 ]
 
 f_paths = record
