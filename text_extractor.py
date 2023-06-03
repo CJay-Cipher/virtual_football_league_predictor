@@ -53,7 +53,7 @@ def table_creator(contents):
 
 # --------------------------------------------------------------------------------------------------
 def add_features(dataframe):
-    def update_match_result(home_team, away_team, home_score, away_score, premier_league_table):
+    def update_league_table(home_team, away_team, home_score, away_score, premier_league_table):
         home_index = -1
         away_index = -1
         for i, team in enumerate(premier_league_table):
@@ -123,7 +123,7 @@ def add_features(dataframe):
         at_score = row["ALS"]
 
         # Update the league table with the match result
-        table = update_match_result(home_t, away_t, ht_score, at_score, premier_league_table)
+        table = update_league_table(home_t, away_t, ht_score, at_score, premier_league_table)
         temp = pd.DataFrame(table)
 
         # Add home team points and position to ht_points and ht_pos lists
@@ -249,7 +249,7 @@ for path in f_paths:
     df_list.append(update_df)
 
 df = pd.concat(df_list, ignore_index=True)
-df.to_csv("league_record.csv", index=False)
+# df.to_csv("league_record.csv", index=False)
 print("\n... Pre-processing Completed ...\nFiles Saved Successfully \n")
 # print(df.tail(10))
 
