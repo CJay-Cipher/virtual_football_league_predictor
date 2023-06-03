@@ -206,7 +206,8 @@ record = [
     f"{path}/L_6095.txt", f"{path}/L_6097.txt", f"{path}/L_6099.txt",
     f"{path}/L_6148.txt", f"{path}/L_6152.txt", f"{path}/L_6153.txt",
     f"{path}/L_6155.txt", f"{path}/L_6155.txt", f"{path}/L_6166.txt",
-    f"{path}/L_6169.txt", f"{path}/L_6170.txt", f"{path}/L_6171.txt"
+    f"{path}/L_6169.txt", f"{path}/L_6170.txt", f"{path}/L_6171.txt",
+    f"{path}/L_6173.txt"
 ]
 
 f_paths = record
