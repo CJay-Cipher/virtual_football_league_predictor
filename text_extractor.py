@@ -208,7 +208,8 @@ record = [
     f"{path}/L_6155.txt", f"{path}/L_6155.txt", f"{path}/L_6166.txt",
     f"{path}/L_6169.txt", f"{path}/L_6170.txt", f"{path}/L_6171.txt",
     f"{path}/L_6173.txt", f"{path}/L_6180.txt", f"{path}/L_6181.txt",
-    f"{path}/L_6189.txt", f"{path}/L_6192.txt"
+    f"{path}/L_6189.txt", f"{path}/L_6192.txt", f"{path}/L_6211.txt",
+    f"{path}/L_6212.txt"
 ]
 
 f_paths = record
@@ -256,8 +257,11 @@ for path in f_paths:
     df_list.append(update_df)
 
 df = pd.concat(df_list, ignore_index=True)
+print(f"All {len(f_paths)} .txt Files Successfully Processed ...")
+
 df.to_csv("league_record.csv", index=False)
-print("\n... Pre-processing Completed ...\nFiles Saved Successfully \n")
+print("\n... Pre-processing Completed ...\nCSV Saved Successfully \n")
+
 # print(df.tail(10))
 
 # print(pd.DataFrame(premier_league_table))
