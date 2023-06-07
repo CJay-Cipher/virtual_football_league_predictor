@@ -1,11 +1,12 @@
 import pandas as pd
+import statistics as st
 # pd.set_option('display.max_columns', None)
 # ------------------------------------------------------------------------------------------------------
 
 # teams = ['FOR', 'MNC', 'ASV', 'TOT', 'EVE', 'CHE', 'BRN', 'WHU', 'ARS', 'FUL',
 #          'NWC', 'BOU', 'LEI', 'LIV', 'WOL', 'MNU', 'LEE', 'SOU', 'BRI', 'CRY']
 
-FIVE, FOUR, THREE, TWO, ONE = 5, 4, 3, 2, 1
+FIVE, FOUR, THREE, TWO, ONE, ZERO = 5, 4, 3, 2, 1, 0
 
 def txt_reader(_path):
     file = open(_path, 'r')  # Open the file in read mode
@@ -41,8 +42,8 @@ def table_creator(contents):
             "minutes": minute,
             "HT": home_team,
             "AT": away_team,
-            "HLS": home_score,
-            "ALS": away_score
+            "HCS": home_score,
+            "ACS": away_score
         }
     )
     return data_table
@@ -109,18 +110,22 @@ def add_features(dataframe):
     # Initialize dictionaries and variables
     team_dict = {team: [] for team in teams}  # Dictionary to store scores for each team
     team_status = {team: [] for team in teams}  # Dictionary to store results (W/D/L) for each team
-    h5, h4, h3, h2, = 0, 0, 0, 0  # Variables to store home team scores from previous matches
-    a5, a4, a3, a2, = 0, 0, 0, 0  # Variables to store away team scores from previous matches
+    h3, h2, h1= 0, 0, 0  # Variables to store home team scores from previous matches
+    a3, a2, a1= 0, 0, 0  # Variables to store away team scores from previous matches
     hs_3, hs_2, hs_1 = 0, 0, 0  # Variables to store home team result (W/D/L) from previous matches
     as_3, as_2, as_1 = 0, 0, 0  # Variables to store away team result (W/D/L) from previous matches
 
+    hsa, asa = 0, 0  # variables to store home & awat team scoring average
+    hwr, hlr, hdr = 0, 0, 0  # store home and away win ratio
+    awr, alr, adr = 0, 0, 0  # store home and away win, lose & draw ratio
+
     # Loop through each row in the dataframe
-    for index, row in temp_df.iterrows():
+    for _, row in temp_df.iterrows():
         # Get home and away teams and scores
         home_t = row["HT"]
-        ht_score = row["HLS"]
+        ht_score = row["HCS"]
         away_t = row["AT"]
-        at_score = row["ALS"]
+        at_score = row["ACS"]
 
         # Update the league table with the match result
         table = update_match_result(home_t, away_t, ht_score, at_score, premier_league_table)
@@ -145,49 +150,67 @@ def add_features(dataframe):
         # Update home and away team dictionaries and status dictionaries with scores and results
         current_week = row["week"]
         for (a, b), c in zip(team_dict.items(), team_status.values()):
+            
             if a == home_t:
+                if current_week >= FIVE:
+                    hsa = st.mean(b[-THREE:])
+                    h3, hs_3 = b[-THREE], c[-THREE]
+                    h2, hs_2 = b[-TWO], c[-TWO]
+                    h1, hs_1 = b[-ONE], c[-ONE]
+                    hwr = c.count(ONE) / len(c)
+                    hlr = c.count(-ONE) / len(c)
+                    hdr = c.count(ZERO) / len(c)
                 b.append(ht_score)
 
-                # mapping "W" = 2, "D" = 1, "L" = 0
-                c.append(2 if ht_score > at_score else 0 if ht_score < at_score else 1)
-                if current_week >= FIVE:
-                    h5 = b[current_week - FIVE]
-                    h4 = b[current_week - FOUR]
-                    h3, hs_3 = b[current_week - THREE], c[current_week - THREE]
-                    h2, hs_2 = b[current_week - TWO], c[current_week - TWO]
-                    hs_1 = c[current_week - ONE]
+                # mapping "W" = 1, "D" = 0, "L" = -1
+                c.append(ONE if ht_score > at_score else -ONE if ht_score < at_score else ZERO)
+
             elif a == away_t:
+                if current_week >= FIVE:
+                    asa = st.mean(b[-THREE:])
+                    a3, as_3 = b[-THREE], c[-THREE]
+                    a2, as_2 = b[-TWO], c[-TWO]
+                    a1, as_1 = b[-ONE], c[-ONE]
+                    awr = c.count(ONE) / len(c)
+                    alr = c.count(-ONE) / len(c)
+                    adr = c.count(ZERO) / len(c)
                 b.append(at_score)
 
-                # mapping "W" = 2, "D" = 1, "L" = 0
-                c.append(2 if ht_score < at_score else 0 if ht_score > at_score else 1)
-                if current_week >= FIVE:
-                    a5 = b[current_week - FIVE]
-                    a4 = b[current_week - FOUR]
-                    a3, as_3 = b[current_week - THREE], c[current_week - THREE]
-                    a2, as_2 = b[current_week - TWO], c[current_week - TWO]
-                    as_1 = c[current_week - ONE]
+                # mapping "W" = 1, "D" = 0, "L" = -1
+                c.append(ONE if ht_score < at_score else -ONE if ht_score > at_score else ZERO)
+
+        # Adding scoring average
+        hs_avg.append(hsa), as_avg.append(asa)
+
+        # Adding win, lose and draw ratio
+        hw_rat.append(hwr), hl_rat.append(hlr), hd_rat.append(hdr)
+        aw_rat.append(awr), al_rat.append(alr), ad_rat.append(adr)
 
         # Add home and away team scores from previous matches to corresponding lists
-        HL5S.append(h5), HL4S.append(h4), HL3S.append(h3), HL2S.append(h2)
-        AL5S.append(a5), AL4S.append(a4), AL3S.append(a3), AL2S.append(a2)
+        HL3S.append(h3), HL2S.append(h2), HL1S.append(h1)
+        AL3S.append(a3), AL2S.append(a2), AL1S.append(a1)
 
         # Add home and away team result (W/D/L) from previous matches to corresponding lists
-        hl3_stat.append(hs_3), hl2_stat.append(hs_2), hl_stat.append(hs_1)
-        al3_stat.append(as_3), al2_stat.append(as_2), al_stat.append(as_1)
+        hl3_stat.append(hs_3), hl2_stat.append(hs_2), hl1_stat.append(hs_1)
+        al3_stat.append(as_3), al2_stat.append(as_2), al1_stat.append(as_1)
 
     # Create a new dictionary with the additional columns
     new_cols = {
-        "HL2S": HL2S, "AL2S": AL2S, "HL3S": HL3S, "AL3S": AL3S,
-        "HL4S": HL4S, "AL4S": AL4S, "HL5S": HL5S, "AL5S": AL5S,
+        "HL1S": HL1S, "AL1S": AL1S, "HL2S": HL2S, 
+        "AL2S": AL2S, "HL3S": HL3S, "AL3S": AL3S,
 
-        "hl_stat": hl_stat, "al_stat": al_stat,
+        "hl1_stat": hl1_stat, "al1_stat": al1_stat,
         "hl2_stat": hl2_stat, "al2_stat": al2_stat,
         "hl3_stat": hl3_stat, "al3_stat": al3_stat,
 
         "h_wins": h_wins, "a_wins": a_wins, "h_draws": h_draws, "a_draws": a_draws,
         "h_loss": h_loss, "a_loss": a_loss, "h_gf": h_gf, "a_gf": a_gf,
         "h_ga": h_ga, "a_ga": a_ga, "h_gd": h_gd, "a_gd": a_gd,
+
+        "hs_avg": hs_avg, "as_avg": as_avg,
+
+        "hw_rat": hw_rat, "hl_rat": hl_rat, "hd_rat": hd_rat,
+        "aw_rat": aw_rat, "al_rat": al_rat, "ad_rat": ad_rat,
 
         "ht_points": ht_points, "at_points": at_points,
         "ht_pos": ht_pos, "at_pos": at_pos
@@ -209,7 +232,9 @@ record = [
     f"{path}/L_6169.txt", f"{path}/L_6170.txt", f"{path}/L_6171.txt",
     f"{path}/L_6173.txt", f"{path}/L_6180.txt", f"{path}/L_6181.txt",
     f"{path}/L_6189.txt", f"{path}/L_6192.txt", f"{path}/L_6211.txt",
-    f"{path}/L_6212.txt"
+    f"{path}/L_6212.txt", f"{path}/L_6213.txt", f"{path}/L_6214.txt",
+    f"{path}/L_6215.txt", f"{path}/L_6216.txt", f"{path}/L_6226.txt", 
+    f"{path}/L_6227.txt", f"{path}/L_6230.txt"
 ]
 
 f_paths = record
@@ -244,11 +269,16 @@ for path in f_paths:
     h_wins, h_draws, h_loss, h_gf, h_ga, h_gd = [], [], [], [], [], []
     a_wins, a_draws, a_loss, a_gf, a_ga, a_gd = [], [], [], [], [], []
 
-    HL5S, HL4S, HL3S, HL2S = [], [], [], []
-    AL5S, AL4S, AL3S, AL2S = [], [], [], []
+    hs_avg, as_avg = [], []  # home & away Scoring averagae column
 
-    hl3_stat, hl2_stat, hl_stat = [], [], []
-    al3_stat, al2_stat, al_stat = [], [], []
+    hw_rat, hl_rat, hd_rat = [], [], []
+    aw_rat, al_rat, ad_rat = [], [], []
+
+    HL1S, HL2S, HL3S = [], [], []
+    AL1S, AL2S, AL3S = [], [], []
+
+    hl3_stat, hl2_stat, hl1_stat = [], [], []
+    al3_stat, al2_stat, al1_stat = [], [], []
 
     text_content = txt_reader(path)
     update_df = table_creator(text_content)
@@ -257,7 +287,7 @@ for path in f_paths:
     df_list.append(update_df)
 
 df = pd.concat(df_list, ignore_index=True)
-print(f"All {len(f_paths)} .txt Files Successfully Processed ...")
+print(f"All {len(f_paths)} .txt Files Successfully Processed ...\n{df.shape[0]} Observations")
 
 df.to_csv("league_record.csv", index=False)
 print("\n... Pre-processing Completed ...\nCSV Saved Successfully \n")
