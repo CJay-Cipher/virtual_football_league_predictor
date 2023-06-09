@@ -3,9 +3,6 @@ import statistics as st
 # pd.set_option('display.max_columns', None)
 # ------------------------------------------------------------------------------------------------------
 
-# teams = ['FOR', 'MNC', 'ASV', 'TOT', 'EVE', 'CHE', 'BRN', 'WHU', 'ARS', 'FUL',
-#          'NWC', 'BOU', 'LEI', 'LIV', 'WOL', 'MNU', 'LEE', 'SOU', 'BRI', 'CRY']
-
 FIVE, FOUR, THREE, TWO, ONE, ZERO = 5, 4, 3, 2, 1, 0
 
 def txt_reader(_path):
@@ -50,7 +47,6 @@ def table_creator(contents):
 
 
 # --------------------------------------------------------------------------------------------
-
 
 # --------------------------------------------------------------------------------------------------
 def add_features(dataframe):
@@ -97,11 +93,6 @@ def add_features(dataframe):
         for i, team in enumerate(premier_league_table):
             team['position'] = i + 1
 
-        home_team_points = premier_league_table[home_index]['points']
-        home_team_position = premier_league_table[home_index]['position']
-        away_team_points = premier_league_table[away_index]['points']
-        away_team_position = premier_league_table[away_index]['position']
-
         return premier_league_table
 
     global table
@@ -110,6 +101,7 @@ def add_features(dataframe):
     # Initialize dictionaries and variables
     team_dict = {team: [] for team in teams}  # Dictionary to store scores for each team
     team_status = {team: [] for team in teams}  # Dictionary to store results (W/D/L) for each team
+
     h3, h2, h1= 0, 0, 0  # Variables to store home team scores from previous matches
     a3, a2, a1= 0, 0, 0  # Variables to store away team scores from previous matches
     hs_3, hs_2, hs_1 = 0, 0, 0  # Variables to store home team result (W/D/L) from previous matches
@@ -121,7 +113,6 @@ def add_features(dataframe):
 
     # Loop through each row in the dataframe
     for _, row in temp_df.iterrows():
-        # Get home and away teams and scores
         home_t = row["HT"]
         ht_score = row["HCS"]
         away_t = row["AT"]
@@ -157,9 +148,11 @@ def add_features(dataframe):
                     h3, hs_3 = b[-THREE], c[-THREE]
                     h2, hs_2 = b[-TWO], c[-TWO]
                     h1, hs_1 = b[-ONE], c[-ONE]
+                    
                     hwr = c.count(ONE) / len(c)
                     hlr = c.count(-ONE) / len(c)
                     hdr = c.count(ZERO) / len(c)
+
                 b.append(ht_score)
 
                 # mapping "W" = 1, "D" = 0, "L" = -1
@@ -171,16 +164,17 @@ def add_features(dataframe):
                     a3, as_3 = b[-THREE], c[-THREE]
                     a2, as_2 = b[-TWO], c[-TWO]
                     a1, as_1 = b[-ONE], c[-ONE]
+                    
                     awr = c.count(ONE) / len(c)
                     alr = c.count(-ONE) / len(c)
                     adr = c.count(ZERO) / len(c)
+
                 b.append(at_score)
 
                 # mapping "W" = 1, "D" = 0, "L" = -1
                 c.append(ONE if ht_score < at_score else -ONE if ht_score > at_score else ZERO)
 
-        # Adding scoring average
-        hs_avg.append(hsa), as_avg.append(asa)
+        hs_avg.append(hsa), as_avg.append(asa)  # Adding scoring average
 
         # Adding win, lose and draw ratio
         hw_rat.append(hwr), hl_rat.append(hlr), hd_rat.append(hdr)
@@ -209,8 +203,11 @@ def add_features(dataframe):
 
         "hs_avg": hs_avg, "as_avg": as_avg,
 
-        "hw_rat": hw_rat, "hl_rat": hl_rat, "hd_rat": hd_rat,
-        "aw_rat": aw_rat, "al_rat": al_rat, "ad_rat": ad_rat,
+        # "H_ADV": H_ADV, #"A_ADV": A_ADV,
+
+        "hw_rat": hw_rat, "aw_rat": aw_rat, 
+        "hl_rat": hl_rat, "al_rat": al_rat, 
+        "hd_rat": hd_rat, "ad_rat": ad_rat,
 
         "ht_points": ht_points, "at_points": at_points,
         "ht_pos": ht_pos, "at_pos": at_pos
@@ -224,7 +221,7 @@ def add_features(dataframe):
 # -----------------------------------------------------------------------------------------------------------
 
 path = "league_data"
-test_record = [f"{path}/L_6148.txt"]
+test_record = [f"{path}/L_18.txt"]
 record = [
     f"{path}/L_6095.txt", f"{path}/L_6097.txt", f"{path}/L_6099.txt",
     f"{path}/L_6148.txt", f"{path}/L_6152.txt", f"{path}/L_6153.txt",
@@ -270,7 +267,7 @@ for path in f_paths:
     a_wins, a_draws, a_loss, a_gf, a_ga, a_gd = [], [], [], [], [], []
 
     hs_avg, as_avg = [], []  # home & away Scoring averagae column
-
+    # H_ADV = []
     hw_rat, hl_rat, hd_rat = [], [], []
     aw_rat, al_rat, ad_rat = [], [], []
 
