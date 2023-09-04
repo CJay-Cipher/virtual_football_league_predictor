@@ -13,7 +13,7 @@ driver = webdriver.Chrome(service=service)
 driver.get("https://vsmobile.bet9ja.com/mobile/themes/?sk=bet9ja&t=b61c29e6-9348-4c58-af90-378760a74693&game"
                "=league_premier&pid=14001,14003,14011,14012,14014,14015,14016,"
                "14017&v=0&text=Premier&lang=en_GB#resutls&ui_state=dialog")
-driver.minimize_window()
+# driver.maximize_window()
 time.sleep(10)
 
 action = ActionChains(driver)
