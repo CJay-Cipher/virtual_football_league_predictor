@@ -1,0 +1,45 @@
+Date: 4/2/2024
+Time: 6:34
+Phone Number: +2347048275297
+Message: Python Whatsapp message test ...
+--------------------
+Date: 4/2/2024
+Time: 6:46
+Phone Number: +2347048275297
+Message: Python Whatsapp message test ...
+--------------------
+Date: 4/2/2024
+Time: 6:46
+Phone Number: +2347048275297
+Message: This is a message sent using PyWhatKit.
+--------------------
+Date: 4/2/2024
+Time: 6:48
+Phone Number: +2347048275297
+Message: This is a message sent using PyWhatKit.
+--------------------
+Date: 4/2/2024
+Time: 6:49
+Phone Number: +2347048275297
+Message: This is a message sent using PyWhatKit.
+--------------------
+Date: 4/2/2024
+Time: 6:51
+Phone Number: +2347048275297
+Message: This is a message sent using PyWhatKit.
+--------------------
+Date: 4/2/2024
+Time: 7:1
+Phone Number: +2347048275297
+Message: This is a message sent using PyWhatKit.
+--------------------
+Date: 4/2/2024
+Time: 7:2
+Phone Number: +2347048275297
+Message: This is a message sent using PyWhatKit.
+--------------------
+Date: 4/2/2024
+Time: 7:9
+Phone Number: +2347048275297
+Message: This is a message sent using PyWhatKit.
+--------------------
