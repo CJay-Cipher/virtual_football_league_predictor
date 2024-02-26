@@ -58,7 +58,7 @@ driver.switch_to.window(new_window_handle)
 time.sleep(1)
 
 start_time = time.time()  # Record the start time 
-max_running_hours = 3  # Set the maximum running hours <<-------------------------------------------------------------------
+max_running_hours = 6  # Set the maximum running hours <<-------------------------------------------------------------------
 max_running_time = max_running_hours * 60 * 60
 
 # Initialize an empty list to store records
@@ -67,13 +67,13 @@ start_trade = False
 pause_trade = False
 end_trade = False
 
-capital = 120_000   # <<-------------------------------------------------------------------
+capital = 70_000   # <<-------------------------------------------------------------------
 print(f"Capital = {capital}")
 win_count_target = 10 # Win times <<-------------------------------------------------------
 win_count = 0
 max_loss = []
 loss_count = 0
-max_num = 8
+max_num = 12
 min_num = 6
 last_draw_num = 13
 green_count, red_count, blue_count = [], [], []
@@ -292,13 +292,12 @@ while True:
         #         trade_status = "---> mid TRADE"#                                                                                                          |
         #         start_trade = True    #                                                                                                                   |
                 
-        if (draw_counter >= last_draw_num) and (temp.count(max(temp)) == 1) and ((max(temp) - (sorted(list(temp))[-2])) <= 3) and (start_trade == False):#|
+        if (draw_counter >= max_num) and (temp.count(max(temp)) == 1) and ((max(temp) - (sorted(list(temp))[-2])) <= 3) and (start_trade == False):#|
             colour_index = temp.index(max(temp))#                                                                                                         |
             colour_num = temp[colour_index]#                                                                                                              |
             colour_string = colours[colour_index]#                                                                                                        |
-            if (max(colour_list[colour_index][-max_num:-min_num]) < colour_num) and (total_stats[0] < (colour_num + 10)) and total_stats[0] > 18\
-                and ((last_draw_list[colour_index][-10:]).count(0) >= 4) and (max(last_draw_list[colour_index][-17:]) <= 5)\
-                and ((last_draw_list[colour_index][-17:]).count(0) <= 6):#                                                                                |                      
+            if (max(colour_list[colour_index][-max_num:-min_num]) < colour_num) and ((last_draw_list[colour_index][-10:]).count(0) >= 4)\
+                and (max(last_draw_list[colour_index][-17:]) <= 5) and len(set(colour_list[colour_index][-4:])) > 1:#                                     |                      
                 trade_status = "---> max TRADE"#                                                                                                          |
                 start_trade = True    #                                                                                                                   |
                 # if notification_start == False:  # For sending email notification to start trading -----------------------.                             |
