@@ -10,6 +10,8 @@ from selenium.common.exceptions import NoSuchElementException, ElementClickInter
 import time
 import sys
 
+# print("\nWaiting for Trade time ...")
+# time.sleep(1400)  # waiting for Trade time
 
 service = Service("chrome_driver/chromedriver.exe")
 driver = webdriver.Chrome(service=service)
@@ -58,7 +60,7 @@ driver.switch_to.window(new_window_handle)
 time.sleep(1)
 
 start_time = time.time()  # Record the start time 
-max_running_hours = 6  # Set the maximum running hours <<-------------------------------------------------------------------
+max_running_hours = 8  # Set the maximum running hours <<-------------------------------------------------------------------
 max_running_time = max_running_hours * 60 * 60
 
 # Initialize an empty list to store records
@@ -67,15 +69,15 @@ start_trade = False
 pause_trade = False
 end_trade = False
 
-capital = 70_000   # <<-------------------------------------------------------------------
+capital = 100_000   # <<-------------------------------------------------------------------
 print(f"Capital = {capital}")
-win_count_target = 10 # Win times <<-------------------------------------------------------
+win_count_target = 20 # Win times <<-------------------------------------------------------
 win_count = 0
 max_loss = []
 loss_count = 0
 max_num = 12
 min_num = 6
-last_draw_num = 13
+# last_draw_num = 13
 green_count, red_count, blue_count = [], [], []
 colour_list = [green_count, red_count, blue_count]
 green_last_draw, red_last_draw, blue_last_draw = [], [], []
@@ -84,7 +86,7 @@ draw_counter = 0
 loss_count_list = []
 
 # MARTINGALE LIST GENERATOR --------
-target_percentage = 1.31  # %  <<-------------------------------------------------------------------
+target_percentage = 1.0  # %  <<-------------------------------------------------------------------
 if target_percentage >= 1.32:
     print(f"Target Percentage is too high - {target_percentage}")
     sys.exit()
@@ -268,7 +270,7 @@ while True:
         if start_trade == False and ((time.time() - start_time) > max_running_time):  # Check if run time has exceeded the allocated trading time
             driver.refresh()  # Reload webpage to get updated final balance
             time.sleep(2)
-            print(f"\n               *** ! PAUSE TRADING ! ***\n        {max_running_hours} hours Allocated Trading time exceeded")
+            print(f"\n               *** ! TRADING PAUSE ! ***\n        {max_running_hours} hours Allocated Trading time exceeded")
             final_balance = round(float(driver.find_element(By.XPATH, "//div[@class='rs-menu__balance-value']").text))
             print(f"Initial Balance = {Initial_balance}")
             print(f"End Balance = {final_balance}")
