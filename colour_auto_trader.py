@@ -60,7 +60,7 @@ driver.switch_to.window(new_window_handle)
 time.sleep(1)
 
 start_time = time.time()  # Record the start time 
-max_running_hours = 8  # Set the maximum running hours <<-------------------------------------------------------------------
+max_running_hours = 23  # Set the maximum running hours <<-------------------------------------------------------------------
 max_running_time = max_running_hours * 60 * 60
 
 # Initialize an empty list to store records
@@ -207,7 +207,7 @@ while True:
                 max_loss.append(loss_count)
                 loss_count = 0
                 # print(f"Total Wins = {win_count} --> Selected Colour = {colour_string} --> Last Loss count = {max_loss[-1]} --> Max Loss = {max(max_loss)}")
-                print(f"------------------------------->-------------------------------> {colour_string} WIN = {win_count} Loss_levels = {max_loss[-1]} Max Loss = {max(max_loss)}")
+                print(f"-------------------------------> {colour_string} WIN = {win_count} Loss_levels = {max_loss[-1]} Max Loss = {max(max_loss)}")
 
             else:
                 loss_count += 1
@@ -279,7 +279,7 @@ while True:
 
         # START TRADING CONDITION ------------------------------------------------------------------------------------------------------------------------.
         current_time = datetime.datetime.now().time()  # breaks the program if wrong trading time -------------------------------.                        |
-        if (current_time >= datetime.time(23, 30) or current_time < datetime.time(1, 25)) and start_trade == False:#             |                        |
+        if (current_time >= datetime.time(23, 30) or current_time < datetime.time(1, 23)) and start_trade == False:#             |                        |
             print(f"\n     *** WRONG TRADING TIME ***\n     {win_count} Wins Achieved - We Continue Tomorrow ...")#              |                        |
             break  # ------------------------------------------------------------------------------------------------------------'                        |
         #                                                                                                                                                 |
