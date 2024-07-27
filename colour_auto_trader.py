@@ -37,11 +37,11 @@ time.sleep(3)
 element_to_hover = driver.find_element(By.XPATH, "//div[@id='11000']//div[@class='game__info']")
 actions.move_to_element(element_to_hover).perform()
 
-# for real trading
-driver.find_element(By.XPATH, "//div[@id='11000']//div[@class='game__info']//button[@title='Play Now'][normalize-space()='Play Now']").click()
+# # for real trading
+# driver.find_element(By.XPATH, "//div[@id='11000']//div[@class='game__info']//button[@title='Play Now'][normalize-space()='Play Now']").click()
 
-# # for demo trading
-# driver.find_element(By.XPATH, "//div[@id='11000']//button[@title='Demo'][normalize-space()='Demo']").click()
+# for demo trading
+driver.find_element(By.XPATH, "//div[@id='11000']//button[@title='Demo'][normalize-space()='Demo']").click()
 
 time.sleep(5)
 
