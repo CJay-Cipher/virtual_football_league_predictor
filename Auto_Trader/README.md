@@ -34,13 +34,14 @@ pandas
 
 ### Browser Compatibility
 
-The script is compatible with Chrome browser version:
+The script Webdriver is compatible with this Chrome browser version:
 
 -   Version 128.0.6613.139 (Official Build) (64-bit)
 
 ### ChromeDriver Location
 
-The ChromeDriver executable is located in the `chrome_driver` directory:
+The Webdriver(ChromeDriver) executable is located in the `chrome_driver` directory.
+<br>To ensure it run successfully make sure to use a compactable webdriver for your browser:
 
 -   `chrome_driver/chromedriver.exe`
 
